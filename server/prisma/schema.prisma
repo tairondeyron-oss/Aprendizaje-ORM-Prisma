@@ -6,3 +6,25 @@ datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
 }
+
+// Definicion estricta de roles del sistema
+
+enum Role {
+    ADMIN
+    BARBER_BOSS
+    BARBER_INDEPENDENT
+    BARBER_AFFILIATE
+}
+
+
+model User {
+    user_id Int @id @default(autoincrement())
+    role Role @default(BARBER_INDEPENDENT)
+    name String 
+    phone String
+    password String
+    photo String
+    state Boolean @default(true)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime @updatedAt
+}
