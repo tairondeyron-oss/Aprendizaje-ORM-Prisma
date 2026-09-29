@@ -1,0 +1,33 @@
+# Dependencias
+
+node_modules/
+.pnpm-store/
+
+
+# Archivos de entorno y credenciales
+
+.env
+.env.*
+
+# Logs y errores
+
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Compilacion y builds
+dist/
+build/
+
+
+# Carpetas de configuracion de editores de IA 
+.agents/
+.claude/
+.cursor/
+.devin/
+
+
+# Sistemas ope
+
+.DS_Store
+Thumbs.db
