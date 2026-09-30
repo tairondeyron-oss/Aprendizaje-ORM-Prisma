@@ -11,13 +11,13 @@
 ## Install
 
 ```sh
-npm install
+pnpm install
 ```
 
 ## Run tests
 
 ```sh
-npm run test
+pnpm run test
 ```
 
 ## Author
