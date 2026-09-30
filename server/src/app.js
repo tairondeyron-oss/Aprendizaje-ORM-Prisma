@@ -7,7 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
-
+import authRoutes from '/.routes./authRoutes.js'
 
 
 //* Cargar las variables de entorno del .env
@@ -36,6 +36,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(lmt);
+app.use('/api/auth',authRoutes);
 
 
 //* Ruta de prueba para verificar que el servidor responde

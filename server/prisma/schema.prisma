@@ -20,6 +20,8 @@ enum Role {
 model User {
     user_id Int @id @default(autoincrement())
     role Role @default(BARBER_INDEPENDENT)
+    failedAttempts Int @default(0) //Contador de intentos fallidos de incio de sesion
+    lockUntil DateTime? //Fehca y hora hasta la cual el usuario estará bloqueado
     name String 
     phone String
     password String
