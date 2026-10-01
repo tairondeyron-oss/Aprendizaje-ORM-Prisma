@@ -23,7 +23,7 @@ model User {
     failedAttempts Int @default(0) //Contador de intentos fallidos de incio de sesion
     lockUntil DateTime? //Fehca y hora hasta la cual el usuario estará bloqueado
     name String 
-    phone String
+    phone String @unique
     password String
     photo String
     state Boolean @default(true)
