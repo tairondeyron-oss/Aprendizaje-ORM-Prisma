@@ -1,12 +1,27 @@
-import { registerUserService, loginUserService } from "../services/authService";
+import { registerUserService, loginUserService } from "../services/authService.js";
 
 //* Controlador para manejar la peticion HTTP de registro
 
 export const registerController = async (req, res) => {
     try {
-        const { phone, password, name, role } = req.body;
+        const { phone, password, name, role, photo, state } = req.body;
 
-        const newUser = await registerUserService({ phone, password, name, role });
+
+        if(state !== undefined && typeof state !== 'boolean') {
+            return res.status(400).json({
+                status: 'ERROR',
+                message: 'El estado debe ser verdadero o falso.'
+            })
+        }
+
+        const newUser = await registerUserService({
+            phone,
+            password,
+            name,
+            role,
+            photo,
+            state
+        });
 
         return res.status(201).json({
             status: 'EXITO',
@@ -27,7 +42,7 @@ export const registerController = async (req, res) => {
 export const loginController = async (req, res) => {
 
     try {
-        const { phone, password, name, role } = req.body
+        const { phone, password} = req.body
     const result = await loginUserService({ phone, password});
 
     return res.status(200).json({

@@ -6,7 +6,7 @@ import prisma from '../config/prisma.js';
 
 //* Servicio para crear un nuevo usuario */
 
-export const registerUserService = async ( { name, phone, password, role }) => {
+export const registerUserService = async ( { name, phone, password, role, photo, state } ) => {
 
     //* Filtro de seguridad y limpieza
 
@@ -20,27 +20,35 @@ export const registerUserService = async ( { name, phone, password, role }) => {
     if(!phone || phoneStr.length !== 10 || isNaN(phoneStr)) throw new Error('Debe ingresar un numero de 10 digitos')
     
     if(!password  || password.length < 8 || !passwordRegex.test(password)) throw new Error('La contraseña de tener almenos 8 caracteres, entre ellos una mayúscula y un signo');
-        return true;
-    }
+        
+    if(role && !['BARBER_INDEPENDENT', 'BARBER_AFFILATE','BARBER_BOSS', 'ADMIN'].includes(role.toUpperCase())) throw new Error('El rol debe ser 1 de los siguientes: BARBER_INDEPENDENT, BARBER_AFFILATE, BARBER_BOSS, ADMIN');
     
+    if(photo && !/^https?:\/\/.+\.(jpg|jpeg|png)$/i.test(photo)) throw new Error('La foto debe ser una URL válida que termine en .jpg, .jpeg, .png ');
+    
+    if(state !== undefined && typeof state !== 'boolean') throw new Error('El estado debe ser verdadero o falso.');
+    return true;
+    }
 
-    validPayload({ name, phone, password });
 
-    const cleanPayload = ({ name, phone, role }) => {
+    validPayload({ name, phone, password, role, photo,state});
+
+    const cleanPayload = ({ name, phone, role, photo, state }) => {
         const cleanPhone = phone ? String(phone).trim() : '';
         const cleanName = name ? name.trim() : '';
-
         const cleanRole = role ? role.trim().toUpperCase() : 'BARBER_INDEPENDENT';
-
+        const cleanPhoto = photo ? photo.trim() : '';
+        const cleanState = state !== undefined ? Boolean(state) : true;
         return {
             cleanName,
             cleanPhone,
-            cleanRole
+            cleanRole,
+            cleanPhoto,
+            cleanState
         };
     };
     
 
-    const { cleanName,cleanPhone,cleanRole } = cleanPayload({ name, phone, role });
+    const { cleanName,cleanPhone,cleanRole,cleanPhoto,cleanState } = cleanPayload({ name, phone, role, photo, state });
 
     const existingUser = await prisma.user.findUnique({ where: {phone: cleanPhone}});
 
@@ -57,11 +65,16 @@ export const registerUserService = async ( { name, phone, password, role }) => {
             password: hashedPassword,
             role: cleanRole || 'BARBER_INDEPENDENT',
             name: cleanName,
+            photo: cleanPhoto || '',
+            state: cleanState !== undefined ? cleanState : true,
         },
         select: {
-            id: true,
+            user_id: true,
             phone: true,
             role: true,
+            name: true,
+            photo: true,
+            state: true,
             createdAt: true,
         },
     });

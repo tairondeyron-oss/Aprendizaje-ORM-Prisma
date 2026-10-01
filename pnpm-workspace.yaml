@@ -1,0 +1,2 @@
+allowBuilds:
+  node-base64: set this to true or false
