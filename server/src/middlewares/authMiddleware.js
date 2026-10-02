@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export const authMiddleware = async ( req, res, next) => {
     //* obtener el token del header 'Authorization'
-    const authHeader = req.header.authorization;
+    const authHeader = req.headers.authorization;
 
     //* tokens enviador como 'Bearer xxx validar si empieza asi 
 

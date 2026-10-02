@@ -119,7 +119,7 @@ export const loginUserService = async ({ phone, password }) => {
         }
 
         await prisma.user.update({
-            where: { id: user.id },
+            where: { user_id: user.user_id },
             data: {
                 failedAttempts: updatedAttempts,
                 lockUntil: lockoutTime,
@@ -132,7 +132,7 @@ export const loginUserService = async ({ phone, password }) => {
     //* Login en caso de exito reinicia conteo
 
     await prisma.user.update({
-        where: { id: user.id },
+        where: { user_id: user.user_id },
         data: {
             failedAttempts: 0,
             lockUntil: null,
@@ -143,7 +143,7 @@ export const loginUserService = async ({ phone, password }) => {
 
     const token = jwt.sign(
         {
-            id: user.id,
+            id: user.user_id,
             phone: user.phone,
             role: user.role
         },
@@ -154,7 +154,7 @@ export const loginUserService = async ({ phone, password }) => {
     return {
         token,
         user: {
-            id: user.id,
+            id: user.user_id,
             name: user.name,
             role: user.role,
             phone: user.phone,

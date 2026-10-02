@@ -6,7 +6,6 @@ export const registerController = async (req, res) => {
     try {
         const { phone, password, name, role, photo, state } = req.body;
 
-
         if(state !== undefined && typeof state !== 'boolean') {
             return res.status(400).json({
                 status: 'ERROR',
