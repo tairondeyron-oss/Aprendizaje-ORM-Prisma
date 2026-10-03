@@ -21,9 +21,9 @@ export const registerUserService = async ( { name, phone, password, role, photo,
     
     if(!password  || password.length < 8 || !passwordRegex.test(password)) throw new Error('La contraseña de tener almenos 8 caracteres, entre ellos una mayúscula y un signo');
         
-    if(role && !['BARBER_INDEPENDENT', 'BARBER_AFFILATE','BARBER_BOSS', 'ADMIN'].includes(role.toUpperCase())) throw new Error('El rol debe ser 1 de los siguientes: BARBER_INDEPENDENT, BARBER_AFFILATE, BARBER_BOSS, ADMIN');
+    if(!role || !['BARBER_INDEPENDENT', 'BARBER_AFFILATE','BARBER_BOSS', 'ADMIN'].includes(role.toUpperCase())) throw new Error('El rol debe ser 1 de los siguientes: BARBER_INDEPENDENT, BARBER_AFFILATE, BARBER_BOSS, ADMIN');
     
-    if(photo && !/^https?:\/\/.+\.(jpg|jpeg|png)$/i.test(photo)) throw new Error('La foto debe ser una URL válida que termine en .jpg, .jpeg, .png ');
+    if(!photo || !/^https?:\/\/.+\.(jpg|jpeg|png)$/i.test(photo)) throw new Error('La foto debe ser una URL válida que termine en .jpg, .jpeg, .png ');
     
     if(state !== undefined && typeof state !== 'boolean') throw new Error('El estado debe ser verdadero o falso.');
     return true;
