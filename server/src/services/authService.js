@@ -10,7 +10,7 @@ export const registerUserService = async ( { name, phone, password, role, photo,
 
     //* Filtro de seguridad y limpieza
 
-    const validPayload =({ name, phone, password } )  => {
+    const validPayload =({ name, phone, password,role,photo, state } )  => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).+$/;
 
         
